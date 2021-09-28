@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
@@ -6,35 +6,9 @@ import PopupWithForm from './PopupWithForm'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
 import EditProfilePopup from './EditProfilePopup'
-import api from '../utils/api'
 import ImagePopup from './ImagePopup'
 
 function App() {
-  //Стейт для карточек
-  const [user, setUser] = useState([])
-
-  //Получаем данные по пользователю и карточки с сервера
-  useEffect(() => {
-    api
-      .updateUserInfo()
-      .then((res) => {
-        setUser(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-  //Стейт для карточек
-  const [cards, setCards] = useState([])
-
-  //Получаем данные по пользователю и карточки с сервера
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
   const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false)
   const [isEditProfilePopupOpen, setIsProfilePopupOpen] = useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
@@ -76,8 +50,6 @@ function App() {
           isEditProfilePopupOpen={handleEditProfileClick}
           isAddPlacePopupOpen={handleAddPlaceClick}
           onCardClick={handleCardClick}
-          user={user}
-          cards={cards}
         />
         <Footer />
         <PopupWithForm

@@ -5,8 +5,13 @@ function Card({ card, onCardClick }) {
     onCardClick(card)
   }
   return (
-    <div onClick={handleCardClick} className="element">
-      <img src={card.link} alt={card.name} className="element__image" />
+    <div className="element">
+      <img
+        src={card.link}
+        alt={card.name}
+        className="element__image"
+        onClick={handleCardClick}
+      />
       <button
         type="button"
         className="element__delete-button"

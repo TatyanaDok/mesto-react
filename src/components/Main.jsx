@@ -1,22 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Card from './Card'
+import api from '../utils/api'
 
 function Main({
   isEditAvatarPopupOpen,
   isEditProfilePopupOpen,
   isAddPlacePopupOpen,
-  user,
-  cards,
   onCardClick,
 }) {
+  //Стейт для карточек
+  const [user, setUser] = useState({})
+
+  //Получаем данные по пользователю и карточки с сервера
+  useEffect(() => {
+    api
+      .updateUserInfo()
+      .then((res) => {
+        setUser(res)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
+  //Стейт для карточек
+  const [cards, setCards] = useState([])
+
+  //Получаем данные по пользователю и карточки с сервера
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__group">
           <img
             className="profile__avatar"
-            alt=""
-            style={{ backgroundImage: `url(${user.avatar})` }}
+            alt="аватар"
+            src={user.avatar}
             onClick={isEditAvatarPopupOpen}
           />
           <div className="profile__avatar-pencil"> </div>
