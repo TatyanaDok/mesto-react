@@ -10,8 +10,9 @@
     cursor: pointer;
     box-sizing: border-box;
     padding: 0;
+    display: none;
 }
 
 .element__delete-button:hover {
-    transition: all .6s ease;
+    transition: all 0.6s ease;
 }
