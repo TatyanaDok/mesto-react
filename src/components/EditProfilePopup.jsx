@@ -14,7 +14,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, submitText }) {
   useEffect(() => {
     setName(currentUser.name)
     setDescription(currentUser.about)
-  }, [currentUser])
+  }, [currentUser, isOpen])
 
   //Функция для изменения имени через поле ввода
   function handleUserName(event) {

@@ -25,6 +25,15 @@ function App() {
   const [cards, setCards] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    Promise.all([api.updateUserInfo(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setCurrentUser(user)
+        setCards(cards)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
   //Открытие попапа аватара
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true)
@@ -60,26 +69,6 @@ function App() {
     setSelectedCard(null)
   }
 
-  //Получаем данные по пользователю и карточки с сервера
-  useEffect(() => {
-    api
-      .updateUserInfo()
-      .then((res) => {
-        setCurrentUser(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
-  //Получаем данные по пользователю и карточки с сервера
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
   //Постановка лайка
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -105,11 +94,11 @@ function App() {
       .then(() => {
         const newCards = cards.filter((c) => c._id !== cardId)
         setCards(newCards)
+        closeAllPopups()
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false)
-        closeAllPopups()
       })
   }
 
@@ -120,12 +109,12 @@ function App() {
       .editProfile(user.name, user.about)
       .then((res) => {
         setCurrentUser(res)
+        closeAllPopups()
       })
       .catch((err) => console.log(err))
 
       .finally(() => {
         setIsLoading(false)
-        closeAllPopups()
       })
   }
 
@@ -136,11 +125,11 @@ function App() {
       .editAvatar(user.avatar)
       .then((res) => {
         setCurrentUser(res)
+        closeAllPopups()
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false)
-        closeAllPopups()
       })
   }
 
@@ -151,11 +140,11 @@ function App() {
       .addNewCard(card.name, card.link)
       .then((res) => {
         setCards([res, ...cards])
+        closeAllPopups()
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false)
-        closeAllPopups()
       })
   }
 
